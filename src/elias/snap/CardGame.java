@@ -9,7 +9,8 @@ public class CardGame {
 
     //Constructor
     public CardGame(String gameName) {
-        // Adding the game name variable to make it easier to reuse CardGame for different games
+        /*Adding the game name variable to make it easier to reuse CardGame for different games if that is something
+        I want to add in down the line*/
         this.gameName = gameName;
         this.deckOfCards = new ArrayList<>();
         createDeck();
@@ -24,6 +25,12 @@ public class CardGame {
             for (int i=0; i < symbols.length; i++) {
                 deckOfCards.add(new Card(suit, symbols[i], values[i]));
             }
+        }
+    }
+
+    public void getDeck() {
+        for (Card card : deckOfCards) {
+            System.out.println(card);
         }
     }
 }
