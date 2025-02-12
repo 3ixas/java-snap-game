@@ -1,6 +1,7 @@
 package elias.snap;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CardGame {
@@ -39,5 +40,9 @@ public class CardGame {
             return deckOfCards.remove(0); // Removes & returns the top card
         }
         return null; // If the deck is empty
+    }
+
+    public void shuffleDeck() {
+        Collections.shuffle(deckOfCards);
     }
 }
