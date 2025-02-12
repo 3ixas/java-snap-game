@@ -45,4 +45,17 @@ public class CardGame {
     public void shuffleDeck() {
         Collections.shuffle(deckOfCards);
     }
+
+    public void sortDeckInNumberOrder() {
+        deckOfCards.sort((c1, c2) -> Integer.compare(c1.getValue(), c2.getValue()));
+    }
+
+    public void sortDeckIntoSuits() {
+        deckOfCards.sort((c1, c2) -> {
+            if (c1.getSuit().equals(c2.getSuit())) {
+                return Integer.compare(c1.getValue(), c2.getValue());
+            }
+            return c1.getSuit().compareTo(c2.getSuit());
+        });
+    }
 }
