@@ -15,7 +15,15 @@ public class CardGame {
         createDeck();
     }
 
-    
+    private void createDeck() {
+        String[] suits = {"❤\uFE0F Hearts", "♦\uFE0F Diamonds", "♣\uFE0F Clubs", "♠\uFE0F Spades"};
+        String[] symbols = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
+        int[] values = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
 
-
+        for (String suit : suits) {
+            for (int i=0; i < symbols.length; i++) {
+                deckOfCards.add(new Card(suit, symbols[i], values[i]));
+            }
+        }
+    }
 }
