@@ -33,4 +33,11 @@ public class CardGame {
             System.out.println(card);
         }
     }
+
+    public Card dealCard() {
+        if (!deckOfCards.isEmpty()) {
+            return deckOfCards.remove(0); // Removes & returns the top card
+        }
+        return null; // If the deck is empty
+    }
 }
