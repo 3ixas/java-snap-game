@@ -17,6 +17,10 @@ public class CardGame {
         createDeck();
     }
 
+    public void printGameInfo() {
+        System.out.println("Welcome to " + gameName + "!");
+    }
+
     private void createDeck() {
         String[] suits = {"❤\uFE0F Hearts", "♦\uFE0F Diamonds", "♣\uFE0F Clubs", "♠\uFE0F Spades"};
         String[] symbols = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
