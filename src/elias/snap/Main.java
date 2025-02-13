@@ -9,7 +9,13 @@ public class Main {
         // Prints the game name
         snapGame.printGameInfo();
 
+        // Print the deck before shuffling
         System.out.println("\nThe deck before shuffling:");
+        snapGame.getDeck();
+
+        // Shuffle the deck
+        snapGame.shuffleDeck();
+        System.out.println("\nThe deck after shuffling:");
         snapGame.getDeck();
     }
 }
