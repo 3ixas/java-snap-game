@@ -13,5 +13,11 @@ public class Snap extends CardGame {
         this.scanner = new Scanner(System.in);
     }
 
-    
+    // Method to play Snap
+    public void playSnap() {
+        System.out.println("Welcopme to " + super.gameName + "! Press ENTER to draw a card from the deck.");
+        shuffleDeck(); // Shuffle deck at the start
+
+        
+    }
 }
