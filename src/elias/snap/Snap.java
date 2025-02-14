@@ -29,6 +29,8 @@ public class Snap extends CardGame {
                     System.out.println("SNAP! You win!");
                     return; // Ends the game when SNAP happens
                 }
+
+                previousCard = currentCard; // Updates the previous card if there is no SNAP
             }
         }
     }
