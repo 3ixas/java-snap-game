@@ -21,6 +21,10 @@ public class Snap extends CardGame {
         while (!deckOfCards.isEmpty()) {
             scanner.nextLine(); // Wait for the user to press enter
             Card currentCard = dealCard(); // Draw a card
+
+            if (currentCard != null) {
+                System.out.println("you drew: " + currentCard);
+            }
         }
     }
 }
