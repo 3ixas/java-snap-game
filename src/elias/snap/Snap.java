@@ -1,5 +1,7 @@
 package elias.snap;
 
+import org.w3c.dom.ls.LSOutput;
+
 import java.util.Scanner;
 
 public class Snap extends CardGame {
@@ -33,5 +35,7 @@ public class Snap extends CardGame {
                 previousCard = currentCard; // Updates the previous card if there is no SNAP
             }
         }
+
+        System.out.println("There are no more cards left. Game over!");
     }
 }
