@@ -24,6 +24,11 @@ public class Snap extends CardGame {
 
             if (currentCard != null) {
                 System.out.println("you drew: " + currentCard);
+
+                if (previousCard != null && previousCard.getSymbol().equals(currentCard.getSymbol())) {
+                    System.out.println("SNAP! You win!");
+                    return; // Ends the game when SNAP happens
+                }
             }
         }
     }
