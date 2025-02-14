@@ -17,5 +17,15 @@ public class Main {
         snapGame.shuffleDeck();
         System.out.println("\nThe deck after shuffling:");
         snapGame.getDeck();
+
+        // Sort the deck by number
+        snapGame.sortDeckInNumberOrder();
+        System.out.println("\nThe deck sorted by number order:");
+        snapGame.getDeck();
+
+        // Sort the deck by suit
+        snapGame.sortDeckIntoSuits();
+        System.out.println("\nThe deck sorted by suit:");
+        snapGame.getDeck();
     }
 }
