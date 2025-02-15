@@ -21,6 +21,10 @@ public class CardGame {
         return gameName;
     }
 
+    public List<Card> getDeckOfCards() {
+        return deckOfCards;
+    }
+
     public void printGameInfo() {
         System.out.println("Welcome to " + gameName + "!");
     }
