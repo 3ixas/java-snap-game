@@ -17,9 +17,10 @@ public class Snap extends CardGame {
         this.currentPlayer = 1; // Player 1 starts the game
     }
 
-    // Method to play Snap
+    // Method to play Snap with two players
     public void playSnap() {
-        System.out.println("Welcome to " + getGameName() + "! Press ENTER to draw a card from the deck.");
+        System.out.println("Welcome to " + getGameName() + "!");
+        System.out.println("Player 1 and Player 2 take turns. Press ENTER to draw a card.");
         shuffleDeck(); // Shuffle deck at the start
 
         while (!getDeckOfCards().isEmpty()) {
