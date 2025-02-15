@@ -1,6 +1,8 @@
 package elias.snap;
 
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Snap extends CardGame {
     private Card previousCard;
@@ -48,5 +50,30 @@ public class Snap extends CardGame {
         }
 
         System.out.println("There are no more cards left. Game over!");
+    }
+
+    // Handles reaction timing for snap
+    private boolean snapReaction() {
+        snapCalled = false;
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                snapCalled = false;
+            }
+        }, 2000); // 2-second timer
+
+        String input = scanner.nextLine();
+        if (input.equalsIgnoreCase("snap")) {
+            snapCalled = true;
+        }
+
+        timer.cancel();
+        return snapCalled;
+    }
+
+    // Switch turns between players
+    private void switchPlayer() {
+        currentPlayer = (currentPlayer == 1) ? 2 : 1;
     }
 }
