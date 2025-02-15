@@ -17,6 +17,10 @@ public class CardGame {
         createDeck();
     }
 
+    public String getGameName() {
+        return gameName;
+    }
+
     public void printGameInfo() {
         System.out.println("Welcome to " + gameName + "!");
     }

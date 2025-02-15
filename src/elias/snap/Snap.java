@@ -17,7 +17,7 @@ public class Snap extends CardGame {
 
     // Method to play Snap
     public void playSnap() {
-        System.out.println("Welcome to " + super.gameName + "! Press ENTER to draw a card from the deck.");
+        System.out.println("Welcome to " + getGameName() + "! Press ENTER to draw a card from the deck.");
         shuffleDeck(); // Shuffle deck at the start
 
         while (!deckOfCards.isEmpty()) {

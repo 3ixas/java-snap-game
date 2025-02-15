@@ -27,5 +27,8 @@ public class Main {
         snapGame.sortDeckIntoSuits();
         System.out.println("\nThe deck sorted by suit:");
         snapGame.getDeck();
+
+        Snap snapGame = new Snap("Snap");
+        snapGame.playSnap();
     }
 }
