@@ -1,12 +1,12 @@
 package elias.snap;
 
-import org.w3c.dom.ls.LSOutput;
-
 import java.util.Scanner;
 
 public class Snap extends CardGame {
     private Card previousCard;
     private final Scanner scanner;
+    private boolean snapCalled;
+    private int currentPlayer;
 
     // Constructor
     public Snap(String gameName) {
