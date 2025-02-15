@@ -29,10 +29,10 @@ public class Snap extends CardGame {
             Card currentCard = dealCard(); // Draw a card
 
             if (currentCard != null) {
-                System.out.println("you drew: " + currentCard);
+                System.out.println("Player " + currentPlayer + "drew: " + currentCard);
 
                 if (previousCard != null && previousCard.getSymbol().equals(currentCard.getSymbol())) {
-                    System.out.println("SNAP! You win!");
+                    System.out.println("\nSNAP CHANCE! Type 'snap' within 2 seconds to win!");
                     return; // Ends the game when SNAP happens
                 }
 
