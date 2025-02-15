@@ -13,6 +13,8 @@ public class Snap extends CardGame {
         super(gameName); // Calls the constructor of CardGame
         this.previousCard = null;
         this.scanner = new Scanner(System.in);
+        this.snapCalled = false;
+        this.currentPlayer = 1; // Player 1 starts the game
     }
 
     // Method to play Snap
