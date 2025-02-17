@@ -1,5 +1,6 @@
 package elias.snap;
 
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -20,7 +21,7 @@ public class Snap extends CardGame {
     }
 
     // Method to play Snap with two players
-    public void playSnap() {
+    public void playSnap() throws IOException {
         System.out.println("Welcome to " + getGameName() + "!");
         System.out.println("Player 1 and Player 2 take turns. Press ENTER to draw a card.");
         shuffleDeck(); // Shuffle deck at the start
@@ -31,7 +32,7 @@ public class Snap extends CardGame {
             Card currentCard = dealCard(); // Draw a card
 
             if (currentCard != null) {
-                System.out.println("Player " + currentPlayer + "drew: " + currentCard);
+                System.out.println("Player " + currentPlayer + " drew: " + currentCard);
 
                 if (previousCard != null && previousCard.getSymbol().equals(currentCard.getSymbol())) {
                     System.out.println("\nSNAP CHANCE! Type 'snap' within 2 seconds to win!");
@@ -53,24 +54,30 @@ public class Snap extends CardGame {
     }
 
     // Handles reaction timing for snap
-    private boolean snapReaction() {
+    private boolean snapReaction() throws IOException {
         snapCalled = false;
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                snapCalled = false;
-            }
-        }, 2000); // 2-second timer
+        long startTime = System.currentTimeMillis(); // Start time tracking
 
-        String input = scanner.nextLine();
-        if (input.equalsIgnoreCase("snap")) {
-            snapCalled = true;
+        System.out.println("You have 2 seconds to type 'snap'...");
+
+        // Keep checking input, but only for 2 seconds
+        while (System.currentTimeMillis() - startTime < 2000) {
+            if (System.in.available() > 0) { // Check if there is input ready to be read
+                String input = scanner.nextLine();
+                if (input.equalsIgnoreCase("snap")) {
+                    snapCalled = true;
+                    break;
+                }
+            }
         }
 
-        timer.cancel();
+        if (!snapCalled) {
+            System.out.println("Too slow! Game continues...");
+        }
+
         return snapCalled;
     }
+
 
     // Switch turns between players
     private void switchPlayer() {
