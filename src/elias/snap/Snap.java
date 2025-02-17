@@ -23,62 +23,85 @@ public class Snap extends CardGame {
 
     // Method to play Snap with two players
     public void playSnap() throws IOException {
-        System.out.println("\n🎮 Welcome to " + getGameName() + "! 🎮");
-        System.out.println("\n🟠 Player 1 and 🔵 Player 2 take turns.");
-        System.out.println("\n👑 First to win 3 rounds will be crowned the final winner!");
-        System.out.println("\n🎴 Press ENTER to draw a card. Be ready for a SNAP chance! " +
-                "⚡");
-        shuffleDeck();
+        boolean playAgain;
 
-        boolean firstTurn = true; // Track first turn for instructions
+        do {
+            // Reset game state
+            player1Score = 0;
+            player2Score = 0;
+            previousCard = null;
+            currentPlayer = 1; // Player 1 always starts
+            createDeck(); // Reset the deck with all 52 cards
+            shuffleDeck(); // Shuffle the new deck
 
-        while (!getDeckOfCards().isEmpty()) {
-            if (firstTurn) {
-                System.out.println("\n➡️ Player " + currentPlayer + ", press ENTER to draw a card...");
-                firstTurn = false; // Only show this prompt once
-            }
-            scanner.nextLine(); // Wait for input
+            System.out.println("\n🎮 Welcome to Snap! 🎮");
+            System.out.println("\n🟠 Player 1 and 🔵 Player 2 take turns.");
+            System.out.println("👑 First to win " + WINNING_SCORE + " rounds will be crowned the final winner!");
+            System.out.println("🎴 Press ENTER to draw a card. Be ready for a SNAP chance! ⚡");
 
-            Card currentCard = dealCard();
-            if (currentCard != null) {
-                String playerEmoji = (currentPlayer == 1) ? "🟠" : "🔵"; // Red for Player 1, Blue for Player 2
-                System.out.println("\n" + playerEmoji + " Player " + currentPlayer + " drew: " + currentCard);
-            }
+            boolean firstTurn = true; // Track first turn for instructions
 
-            // Check for SNAP
-            if (previousCard != null && previousCard.getSymbol().equals(currentCard.getSymbol())) {
-                System.out.println("\n⚡⚡ SNAP CHANCE! Type 'snap' within 2 seconds to win! ⚡⚡");
-
-                if (snapReaction()) {
-                    if (currentPlayer == 1) {
-                        player1Score++;
-                    } else {
-                        player2Score++;
-                    }
-
-                    System.out.println("\n🎉🎉 SNAP!!! PLAYER " + currentPlayer + " WINS! 🎉🎉");
-                    System.out.println("📊 SCORE: 🟠 Player 1: " + player1Score + " | 🔵 Player 2: " + player2Score);
-
-                    if (player1Score == WINNING_SCORE || player2Score == WINNING_SCORE) {
-                        System.out.println("\n🏆 FINAL WINNER: " + (player1Score == WINNING_SCORE ? "🟠 PLAYER 1" : "🔵 PLAYER 2") + "! 🏆");
-                        return;
-                    }
-
-                    System.out.println("\n🎲 Next Round! Press ENTER to continue playing...");
-                    previousCard = null;
-                    shuffleDeck();
-                } else {
-                    System.out.println("\n⏳ Too slow! The game continues...");
+            while (!getDeckOfCards().isEmpty()) {
+                if (firstTurn) {
+                    System.out.println("\n➡️ Player " + currentPlayer + ", press ENTER to draw a card...");
+                    firstTurn = false; // Only show this prompt once
                 }
+                scanner.nextLine(); // Wait for input
+
+                Card currentCard = dealCard();
+                if (currentCard != null) {
+                    String playerEmoji = (currentPlayer == 1) ? "🟠" : "🔵"; // Red for Player 1, Blue for Player 2
+                    System.out.println("\n" + playerEmoji + " Player " + currentPlayer + " drew: " + currentCard);
+                }
+
+                // Check for SNAP
+                if (previousCard != null && previousCard.getSymbol().equals(currentCard.getSymbol())) {
+                    System.out.println("\n⚡⚡ SNAP CHANCE! Type 'snap' within 2 seconds to win! ⚡⚡");
+
+                    if (snapReaction()) {
+                        // Update scores
+                        if (currentPlayer == 1) {
+                            player1Score++;
+                        } else {
+                            player2Score++;
+                        }
+
+                        // Announce the SNAP winner
+                        System.out.println("\n🎉🎉 SNAP!!! PLAYER " + currentPlayer + " WINS! 🎉🎉");
+                        System.out.println("📊 SCORE: 🟠 Player 1: " + player1Score + " | 🔵 Player 2: " + player2Score);
+
+                        // Check if a player has won the match
+                        if (player1Score == WINNING_SCORE || player2Score == WINNING_SCORE) {
+                            System.out.println("\n🏆 FINAL WINNER: " + (player1Score == WINNING_SCORE ? "🟠 PLAYER 1" : "🔵 PLAYER 2") + "! 🏆");
+                            break; // Exit game loop after final win
+                        }
+
+                        // Reset deck for a new round
+                        System.out.println("\n🎲 Next Round! Resetting deck and shuffling...");
+                        createDeck(); // Reset the deck with all 52 cards
+                        shuffleDeck(); // Shuffle the new deck
+                        previousCard = null; // Reset previousCard for the next round
+                        firstTurn = true; // Reset firstTurn so "Press ENTER" appears again
+                        continue; // Restart the loop for a new round
+                    } else {
+                        System.out.println("\n⏳ Too slow! The game continues...");
+                    }
+                }
+
+                previousCard = currentCard; // Store current card for next turn
+                switchPlayer();
             }
 
-            previousCard = currentCard; // Store current card for next turn
-            switchPlayer();
-        }
+            // Only ask to replay at the end of the match
+            System.out.println("\n📦 No more cards left. GAME OVER!");
+            System.out.print("\n🔄 Do you want to play again? (yes/no): ");
+            String response = scanner.nextLine().trim().toLowerCase();
+            playAgain = response.equals("yes");
 
-        System.out.println("\n📦 No more cards left. GAME OVER!");
+        } while (playAgain); // Loop the game if players want to replay
+
+        System.out.println("\n👋 Thanks for playing Snap! See you next time!");
     }
-
 
     // Handles reaction timing for snap
     private boolean snapReaction() throws IOException {
