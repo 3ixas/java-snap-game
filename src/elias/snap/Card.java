@@ -5,14 +5,12 @@ public class Card {
     private final String symbol;
     private final int value;
 
-    // Constructor
     public Card(String suit, String symbol, int value) {
         this.suit = suit;
         this.symbol = symbol;
         this.value = value;
     }
 
-    // Getters
     public String getSuit() {
         return suit;
     }
@@ -25,7 +23,6 @@ public class Card {
         return value;
     }
 
-    // Override toString() for better readability
     @Override
     public String toString() {
         return symbol + " of " + suit;

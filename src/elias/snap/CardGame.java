@@ -2,72 +2,62 @@ package elias.snap;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class CardGame {
-    private final List<Card> deckOfCards;
+    private final List<Card> deck;
     private final String gameName;
 
-    //Constructor
+    // Constructor
     public CardGame(String gameName) {
-        /*Adding the game name variable to make it easier to reuse CardGame for different games if that is something
-        I want to add in down the line*/
         this.gameName = gameName;
-        this.deckOfCards = new ArrayList<>();
-        createDeck();
+        this.deck = new ArrayList<>();
+        initialiseDeck();
     }
 
+    // Getter for game name
     public String getGameName() {
         return gameName;
     }
 
-    public List<Card> getDeckOfCards() {
-        return deckOfCards;
+    // Getter for deck
+    public List<Card> getDeck() {
+        return deck;
     }
 
-    public void printGameInfo() {
-        System.out.println("Welcome to " + gameName + "!");
-    }
-
-    protected void createDeck() {
-        String[] suits = {"❤️ Hearts", "♦️ Diamonds", "♣️ Clubs", "♠️ Spades"};
-        String[] symbols = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
-        int[] values = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
-
-        for (String suit : suits) {
-            for (int i=0; i < symbols.length; i++) {
-                deckOfCards.add(new Card(suit, symbols[i], values[i]));
+    // Initializes a full deck of 52 cards
+    protected void initialiseDeck() {
+        deck.clear(); // Ensures no duplicate cards on re-initialization
+        for (Suit suit : Suit.values()) {
+            for (Value value : Value.values()) {
+                deck.add(new Card(suit.getSymbol(), value.getSymbol(), value.getRank()));
             }
         }
     }
 
-    public void getDeck() {
-        for (Card card : deckOfCards) {
-            System.out.println(card);
-        }
+    // Prints all cards in the deck
+    public void printDeck() {
+        deck.forEach(System.out::println);
     }
 
+    // Deals the top card from the deck
     public Card dealCard() {
-        if (!deckOfCards.isEmpty()) {
-            return deckOfCards.remove(0); // Removes & returns the top card
-        }
-        return null; // If the deck is empty
+        return deck.isEmpty() ? null : deck.remove(0);
     }
 
+    // Shuffles the deck
     public void shuffleDeck() {
-        Collections.shuffle(deckOfCards);
+        Collections.shuffle(deck);
     }
 
-    public void sortDeckInNumberOrder() {
-        deckOfCards.sort((c1, c2) -> Integer.compare(c1.getValue(), c2.getValue()));
+    // Sorts deck by card value
+    public void sortDeckByValue() {
+        deck.sort(Comparator.comparingInt(Card::getValue));
     }
 
-    public void sortDeckIntoSuits() {
-        deckOfCards.sort((c1, c2) -> {
-            if (c1.getSuit().equals(c2.getSuit())) {
-                return Integer.compare(c1.getValue(), c2.getValue());
-            }
-            return c1.getSuit().compareTo(c2.getSuit());
-        });
+    // Sorts deck by suit and then by value
+    public void sortDeckBySuit() {
+        deck.sort(Comparator.comparing(Card::getSuit).thenComparingInt(Card::getValue));
     }
 }
