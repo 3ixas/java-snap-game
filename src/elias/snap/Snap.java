@@ -36,11 +36,11 @@ public class Snap extends CardGame {
                 System.out.println("\n🃏 Player " + currentPlayer + " drew: " + currentCard);
 
                 if (previousCard != null && previousCard.getSymbol().equals(currentCard.getSymbol())) {
-                    System.out.println("\n⚡⚡ **SNAP CHANCE!** Type 'snap' within 2 seconds to win! ⚡⚡");
+                    System.out.println("\n⚡⚡ SNAP CHANCE! Type 'snap' within 2 seconds to win! ⚡⚡");
                     System.out.println("⌛ You have 2 seconds... GO!");
 
                     if (snapReaction()) {
-                        System.out.println("\n🎉🎉 **SNAP! Player " + currentPlayer + " WINS!** 🎉🎉");
+                        System.out.println("\n🎉🎉 SNAP! PLAYER " + currentPlayer + " WINS!** 🎉🎉");
                         return; // Ends the game
                     } else {
                         System.out.println("\n⏳ Too slow! The game continues...");
