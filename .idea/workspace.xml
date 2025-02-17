@@ -6,9 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="588080df-fa65-4e83-8caf-59a977e8e4de" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/java-snap-game/elias/snap/CardGame.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/java-snap-game/elias/snap/CardGame.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/java-snap-game/elias/snap/Snap.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/java-snap-game/elias/snap/Snap.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/elias/snap/CardGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/elias/snap/CardGame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/elias/snap/Snap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/elias/snap/Snap.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

@@ -6,125 +6,168 @@ import java.util.Scanner;
 public class Snap extends CardGame {
     private Card previousCard;
     private final Scanner scanner;
-    private boolean snapCalled;
     private int currentPlayer;
-    private int player1Score = 0;
-    private int player2Score = 0;
-    private final int WINNING_SCORE = 3;
+    private int player1Score;
+    private int player2Score;
+    private static final int WINNING_SCORE = 3;
 
     // Constructor
     public Snap(String gameName) {
-        super(gameName); // Calls the constructor of CardGame
-        this.previousCard = null;
+        super(gameName);
         this.scanner = new Scanner(System.in);
-        this.snapCalled = false;
-        this.currentPlayer = 1; // Player 1 starts the game
+        resetGame(); // Initializes values
     }
 
-    // Method to play Snap with two players
     public void playSnap() throws IOException {
-        boolean playAgain;
-
         do {
-            // Reset game state
-            player1Score = 0;
-            player2Score = 0;
-            previousCard = null;
-            currentPlayer = 1; // Player 1 always starts
-            createDeck(); // Reset the deck with all 52 cards
-            shuffleDeck(); // Shuffle the new deck
-
-            System.out.println("\n🎮 Welcome to Snap! 🎮");
-            System.out.println("\n🟠 Player 1 and 🔵 Player 2 take turns.");
-            System.out.println("👑 First to win " + WINNING_SCORE + " rounds will be crowned the final winner!");
-            System.out.println("🎴 Press ENTER to draw a card. Be ready for a SNAP chance! ⚡");
-
-            boolean firstTurn = true; // Track first turn for instructions
-
-            while (!getDeckOfCards().isEmpty()) {
-                if (firstTurn) {
-                    System.out.println("\n➡️ Player " + currentPlayer + ", press ENTER to draw a card...");
-                    firstTurn = false; // Only show this prompt once
-                }
-                scanner.nextLine(); // Wait for input
-
-                Card currentCard = dealCard();
-                if (currentCard != null) {
-                    String playerEmoji = (currentPlayer == 1) ? "🟠" : "🔵"; // Red for Player 1, Blue for Player 2
-                    System.out.println("\n" + playerEmoji + " Player " + currentPlayer + " drew: " + currentCard);
-                }
-
-                // Check for SNAP
-                if (previousCard != null && previousCard.getSymbol().equals(currentCard.getSymbol())) {
-                    System.out.println("\n⚡⚡ SNAP CHANCE! Type 'snap' within 2 seconds to win! ⚡⚡");
-
-                    if (snapReaction()) {
-                        // Update scores
-                        if (currentPlayer == 1) {
-                            player1Score++;
-                        } else {
-                            player2Score++;
-                        }
-
-                        // Announce the SNAP winner
-                        System.out.println("\n🎉🎉 SNAP!!! PLAYER " + currentPlayer + " WINS! 🎉🎉");
-                        System.out.println("📊 SCORE: 🟠 Player 1: " + player1Score + " | 🔵 Player 2: " + player2Score);
-
-                        // Check if a player has won the match
-                        if (player1Score == WINNING_SCORE || player2Score == WINNING_SCORE) {
-                            System.out.println("\n🏆 FINAL WINNER: " + (player1Score == WINNING_SCORE ? "🟠 PLAYER 1" : "🔵 PLAYER 2") + "! 🏆");
-                            break; // Exit game loop after final win
-                        }
-
-                        // Reset deck for a new round
-                        System.out.println("\n🎲 Next Round! Resetting deck and shuffling...");
-                        createDeck(); // Reset the deck with all 52 cards
-                        shuffleDeck(); // Shuffle the new deck
-                        previousCard = null; // Reset previousCard for the next round
-                        firstTurn = true; // Reset firstTurn so "Press ENTER" appears again
-                        continue; // Restart the loop for a new round
-                    } else {
-                        System.out.println("\n⏳ Too slow! The game continues...");
-                    }
-                }
-
-                previousCard = currentCard; // Store current card for next turn
-                switchPlayer();
-            }
-
-            // Only ask to replay at the end of the match
-            System.out.println("\n📦 No more cards left. GAME OVER!");
-            System.out.print("\n🔄 Do you want to play again? (yes/no): ");
-            String response = scanner.nextLine().trim().toLowerCase();
-            playAgain = response.equals("yes");
-
-        } while (playAgain); // Loop the game if players want to replay
+            resetGame();
+            printGameStartMessage();
+            playGameLoop();
+        } while (askToReplay());
 
         System.out.println("\n👋 Thanks for playing Snap! See you next time!");
     }
 
-    // Handles reaction timing for snap
-    private boolean snapReaction() throws IOException {
-        snapCalled = false;
-        long startTime = System.currentTimeMillis(); // Start time tracking
+    // Resets game state at the start of a new match
+    private void resetGame() {
+        player1Score = 0;
+        player2Score = 0;
+        previousCard = null;
+        currentPlayer = 1;
+        createDeck();
+        shuffleDeck();
+    }
 
-        // Keep checking input, but only for 2 seconds
-        while (System.currentTimeMillis() - startTime < 2000) {
-            if (System.in.available() > 0) { // Check if there is input ready to be read
-                String input = scanner.nextLine();
-                if (input.equalsIgnoreCase("snap")) {
-                    snapCalled = true;
-                    break;
-                }
+    // Prints the game introduction message
+    private void printGameStartMessage() {
+        System.out.println("\n🎮 Welcome to Snap! 🎮");
+        System.out.println("\n🟠 Player 1 and 🔵 Player 2 take turns.");
+        System.out.println("👑 First to win " + WINNING_SCORE + " rounds will be crowned the final winner!");
+        System.out.println("🎴 Press ENTER to draw a card. Be ready for a SNAP chance! ⚡");
+    }
+
+    private void playGameLoop() throws IOException {
+        while (!getDeckOfCards().isEmpty()) {
+            handlePlayerTurn();
+
+            if (isSnapMatch() && processSnapEvent()) {
+                return; // End game if we have a final winner
             }
+
+            switchPlayer();
         }
 
-        return snapCalled;
+        printGameOverMessage();
+    }
+
+    // Handles a player's turn
+    private void handlePlayerTurn() {
+        System.out.println("\n➡️ Player " + currentPlayer + ", press ENTER to draw a card...");
+        scanner.nextLine(); // Wait for player input
+
+        Card currentCard = dealCard();
+        if (currentCard != null) {
+            System.out.println("\n" + getPlayerEmoji() + " Player " + currentPlayer + " drew: " + currentCard);
+        }
+        previousCard = currentCard; // Store current card for next turn
+    }
+
+    // Returns player emoji for better UI experience
+    private String getPlayerEmoji() {
+        return (currentPlayer == 1) ? "🟠" : "🔵";
+    }
+
+    // Checks if the last two drawn cards match
+    private boolean isSnapMatch() {
+        return previousCard != null && !getDeckOfCards().isEmpty() &&
+                previousCard.getSymbol().equals(getDeckOfCards().get(0).getSymbol());
     }
 
 
-    // Switch turns between players
+    // Processes the SNAP event, updates scores, and resets the game if needed
+    private boolean processSnapEvent() throws IOException {
+        System.out.println("\n⚡⚡ SNAP CHANCE! Type 'snap' within 2 seconds to win! ⚡⚡");
+
+        if (snapReaction()) {
+            updatePlayerScore();
+            printSnapWinMessage();
+
+            if (isFinalWinner()) {
+                printFinalWinner();
+                return true;
+            }
+
+            resetRound();
+        } else {
+            System.out.println("\n⏳ Too slow! The game continues...");
+        }
+        return false;
+    }
+
+    // Updates the score of the current player
+    private void updatePlayerScore() {
+        if (currentPlayer == 1) {
+            player1Score++;
+        } else {
+            player2Score++;
+        }
+    }
+
+    // Prints the SNAP winner and current score
+    private void printSnapWinMessage() {
+        System.out.println("\n🎉🎉 SNAP!!! PLAYER " + currentPlayer + " WINS! 🎉🎉");
+        System.out.println("📊 SCORE: 🟠 Player 1: " + player1Score + " | 🔵 Player 2: " + player2Score);
+    }
+
+    // Checks if a player has reached the winning score
+    private boolean isFinalWinner() {
+        return player1Score == WINNING_SCORE || player2Score == WINNING_SCORE;
+    }
+
+    // Prints the final game winner
+    private void printFinalWinner() {
+        System.out.println("\n🏆 FINAL WINNER: " + (player1Score == WINNING_SCORE ? "🟠 PLAYER 1" : "🔵 PLAYER 2") + "! 🏆");
+    }
+
+    // Resets for the next round
+    private void resetRound() {
+        System.out.println("\n🎲 Next Round! Resetting deck and shuffling...");
+        createDeck();
+        shuffleDeck();
+        previousCard = null;
+    }
+
+    // Prints game over message
+    private void printGameOverMessage() {
+        System.out.println("\n📦 No more cards left. **GAME OVER!**");
+    }
+
+    // Asks if players want to replay the game
+    private boolean askToReplay() {
+        System.out.print("\n🔄 Do you want to play again? (yes/no): ");
+        return scanner.nextLine().trim().equalsIgnoreCase("yes");
+    }
+
+    // Handles reaction timing for SNAP
+    private boolean snapReaction() throws IOException {
+
+        long startTime = System.currentTimeMillis();
+        long timeLimit = startTime + 2000; // 2-second time limit
+
+        while (System.currentTimeMillis() < timeLimit) {
+            if (System.in.available() > 0) {
+                String input = scanner.nextLine().trim();
+                if (input.equalsIgnoreCase("snap")) {
+                    return true; // Player reacted in time
+                }
+            }
+        }
+        return false;
+    }
+
+
+    // Switches turn between players
     private void switchPlayer() {
-        currentPlayer = (currentPlayer == 1) ? 2 : 1;
+        currentPlayer ^= 3; // Bitwise XOR toggle between 1 and 2
     }
 }
