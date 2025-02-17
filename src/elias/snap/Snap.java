@@ -23,49 +23,49 @@ public class Snap extends CardGame {
     // Method to play Snap with two players
     public void playSnap() throws IOException {
         System.out.println("\n🎮 Welcome to " + getGameName() + "! 🎮");
-        System.out.println("\n🔴 Player 1 and 🔵 Player 2 take turns.");
+        System.out.println("\n🟠 Player 1 and 🔵 Player 2 take turns.");
         System.out.println("🎴 Press ENTER to draw a card. Be ready for a SNAP chance! ⚡");
-        shuffleDeck(); // Shuffle deck at the start
+        shuffleDeck();
 
-        boolean firstTurn = true;
+        boolean firstTurn = true; // Track first turn for instructions
 
         while (!getDeckOfCards().isEmpty()) {
             if (firstTurn) {
                 System.out.println("\n➡️ Player " + currentPlayer + ", press ENTER to draw a card...");
-                firstTurn = false;
+                firstTurn = false; // Only show this prompt once
             }
-            scanner.nextLine(); // Wait for the player to press enter
+            scanner.nextLine(); // Wait for input
 
-            Card currentCard = dealCard(); // Draw a card
+            Card currentCard = dealCard();
             if (currentCard != null) {
-                System.out.println("\n🃏 Player " + currentPlayer + " drew: " + currentCard);
-
-                if (previousCard != null && previousCard.getSymbol().equals(currentCard.getSymbol())) {
-                    System.out.println("\n⚡⚡ SNAP CHANCE! Type 'snap' within 2 seconds to win! ⚡⚡");
-                    System.out.println("⌛ You have 2 seconds... GO!");
-
-                    if (snapReaction()) {
-                        System.out.println("\n🎉🎉 SNAP! PLAYER " + currentPlayer + " WINS!** 🎉🎉");
-                        return; // Ends the game
-                    } else {
-                        System.out.println("\n⏳ Too slow! The game continues...");
-                    }
-                }
-
-                previousCard = currentCard; // Updates the previous card if there is no SNAP
-                switchPlayer();
+                String playerEmoji = (currentPlayer == 1) ? "🟠" : "🔵"; // Red for Player 1, Blue for Player 2
+                System.out.println("\n" + playerEmoji + " Player " + currentPlayer + " drew: " + currentCard);
             }
+
+            // Check for SNAP
+            if (previousCard != null && previousCard.getSymbol().equals(currentCard.getSymbol())) {
+                System.out.println("\n⚡⚡ SNAP CHANCE! Type 'snap' within 2 seconds to win! ⚡⚡");
+
+                if (snapReaction()) {
+                    System.out.println("\n🎉🎉 SNAP!!! PLAYER " + currentPlayer + " WINS! 🎉🎉");
+                    return; // End game
+                } else {
+                    System.out.println("\n⏳ Too slow! The game continues...");
+                }
+            }
+
+            previousCard = currentCard; // Store current card for next turn
+            switchPlayer();
         }
 
-        System.out.println("\n📦 No more cards left. **Game Over!**");
+        System.out.println("\n📦 No more cards left. **GAME OVER!**");
     }
+
 
     // Handles reaction timing for snap
     private boolean snapReaction() throws IOException {
         snapCalled = false;
         long startTime = System.currentTimeMillis(); // Start time tracking
-
-        System.out.println("You have 2 seconds to type 'snap'...");
 
         // Keep checking input, but only for 2 seconds
         while (System.currentTimeMillis() - startTime < 2000) {
@@ -76,10 +76,6 @@ public class Snap extends CardGame {
                     break;
                 }
             }
-        }
-
-        if (!snapCalled) {
-            System.out.println("Too slow! Game continues...");
         }
 
         return snapCalled;
