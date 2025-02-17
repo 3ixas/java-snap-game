@@ -30,7 +30,7 @@ public class CardGame {
     }
 
     private void createDeck() {
-        String[] suits = {"❤\uFE0F Hearts", "♦\uFE0F Diamonds", "♣\uFE0F Clubs", "♠\uFE0F Spades"};
+        String[] suits = {"❤️ Hearts", "♦️ Diamonds", "♣️ Clubs", "♠️ Spades"};
         String[] symbols = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
         int[] values = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
 

@@ -22,26 +22,28 @@ public class Snap extends CardGame {
 
     // Method to play Snap with two players
     public void playSnap() throws IOException {
-        System.out.println("Welcome to " + getGameName() + "!");
-        System.out.println("Player 1 and Player 2 take turns. Press ENTER to draw a card.");
+        System.out.println("\n🎮 Welcome to " + getGameName() + "! 🎮");
+        System.out.println("\n🔴 Player 1 and 🔵 Player 2 take turns.");
+        System.out.println("🎴 Press ENTER to draw a card. Be ready for a SNAP chance! ⚡");
         shuffleDeck(); // Shuffle deck at the start
 
         while (!getDeckOfCards().isEmpty()) {
-            System.out.println("\nPlayer " + currentPlayer + ", press ENTER to draw a card.");
+            System.out.println("\n➡️ Player " + currentPlayer + ", press ENTER to draw a card...");
             scanner.nextLine(); // Wait for the player to press enter
-            Card currentCard = dealCard(); // Draw a card
 
+            Card currentCard = dealCard(); // Draw a card
             if (currentCard != null) {
-                System.out.println("Player " + currentPlayer + " drew: " + currentCard);
+                System.out.println("\n🃏 Player " + currentPlayer + " drew: " + currentCard);
 
                 if (previousCard != null && previousCard.getSymbol().equals(currentCard.getSymbol())) {
-                    System.out.println("\nSNAP CHANCE! Type 'snap' within 2 seconds to win!");
+                    System.out.println("\n⚡⚡ **SNAP CHANCE!** Type 'snap' within 2 seconds to win! ⚡⚡");
+                    System.out.println("⌛ You have 2 seconds... GO!");
 
                     if (snapReaction()) {
-                        System.out.println("Player " + currentPlayer + " wins!");
+                        System.out.println("\n🎉🎉 **SNAP! Player " + currentPlayer + " WINS!** 🎉🎉");
                         return; // Ends the game
                     } else {
-                        System.out.println("Too slow! Game continues...");
+                        System.out.println("\n⏳ Too slow! The game continues...");
                     }
                 }
 
@@ -50,7 +52,7 @@ public class Snap extends CardGame {
             }
         }
 
-        System.out.println("There are no more cards left. Game over!");
+        System.out.println("\n📦 No more cards left. **Game Over!**");
     }
 
     // Handles reaction timing for snap
