@@ -2,14 +2,15 @@ package elias.snap;
 
 import java.io.IOException;
 import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Snap extends CardGame {
     private Card previousCard;
     private final Scanner scanner;
     private boolean snapCalled;
     private int currentPlayer;
+    private int player1Score = 0;
+    private int player2Score = 0;
+    private final int WINNING_SCORE = 3;
 
     // Constructor
     public Snap(String gameName) {
@@ -47,8 +48,22 @@ public class Snap extends CardGame {
                 System.out.println("\n⚡⚡ SNAP CHANCE! Type 'snap' within 2 seconds to win! ⚡⚡");
 
                 if (snapReaction()) {
+                    if (currentPlayer == 1) {
+                        player1Score++;
+                    } else {
+                        player2Score++;
+                    }
+
                     System.out.println("\n🎉🎉 SNAP!!! PLAYER " + currentPlayer + " WINS! 🎉🎉");
-                    return; // End game
+                    System.out.println("📊 SCORE: 🟠 Player 1: " + player1Score + " | 🔵 Player 2: " + player2Score);
+
+                    if (player1Score == WINNING_SCORE || player2Score == WINNING_SCORE) {
+                        System.out.println("\n🏆 FINAL WINNER: " + (player1Score == WINNING_SCORE ? "🟠 PLAYER 1" : "🔵 PLAYER 2") + "! 🏆");
+                        return;
+                    }
+
+                    System.out.println("\n🎲 Next Round! Shuffle deck and continue playing...");
+                    shuffleDeck();
                 } else {
                     System.out.println("\n⏳ Too slow! The game continues...");
                 }
@@ -58,7 +73,7 @@ public class Snap extends CardGame {
             switchPlayer();
         }
 
-        System.out.println("\n📦 No more cards left. **GAME OVER!**");
+        System.out.println("\n📦 No more cards left. GAME OVER!");
     }
 
 
