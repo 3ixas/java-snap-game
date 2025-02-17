@@ -25,7 +25,9 @@ public class Snap extends CardGame {
     public void playSnap() throws IOException {
         System.out.println("\n🎮 Welcome to " + getGameName() + "! 🎮");
         System.out.println("\n🟠 Player 1 and 🔵 Player 2 take turns.");
-        System.out.println("🎴 Press ENTER to draw a card. Be ready for a SNAP chance! ⚡");
+        System.out.println("\n👑 First to win 3 rounds will be crowned the final winner!");
+        System.out.println("\n🎴 Press ENTER to draw a card. Be ready for a SNAP chance! " +
+                "⚡");
         shuffleDeck();
 
         boolean firstTurn = true; // Track first turn for instructions
@@ -62,7 +64,8 @@ public class Snap extends CardGame {
                         return;
                     }
 
-                    System.out.println("\n🎲 Next Round! Shuffle deck and continue playing...");
+                    System.out.println("\n🎲 Next Round! Press ENTER to continue playing...");
+                    previousCard = null;
                     shuffleDeck();
                 } else {
                     System.out.println("\n⏳ Too slow! The game continues...");
