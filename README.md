@@ -52,28 +52,31 @@ Snap is a classic card game where **two players take turns drawing cards** until
 ---
 
 ## 🖥️ **How to Run the Game Locally**
-1. Download the game code
-   - Open a terminal and enter:
-   ```
-   git clone https://github.com/3ixas/java-snap-game.git
-   ```
-   - This will copy the game files to your computer.
+1. Clone the repository
+   - For HTTPS:
+     ```
+     git clone https://github.com/3ixas/java-snap-game.git
+     ```
+   - For SSH:
+     ```
+      git clone git@github.com:3ixas/java-snap-game.git
+      ```
    
 2. Go to the project folder
     ```
    cd snap-game
    ```
-   - This moves into the game’s directory.
 
-3. Compile the Java files
-    ```
-   javac src/elias/snap/*.java
-   ```
-
-4. Run the game
-    ```
-   java -cp src elias.snap.Main
-   ```
+3. Compile & run the Java files
+   - Option 1: Run in an IDE
+     - Open the project in IntelliJ (recommended) or VS Code
+     - Run Main.java
+    
+   - Option 2: Run via terminal
+     ```
+     javac -d out src/elias/snap/*.java
+     java -cp out elias.snap.Main
+      ```
 
 ---
 
