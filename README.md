@@ -36,8 +36,6 @@ Snap is a classic card game where **two players take turns drawing cards** until
 ## 🏗 **Project Structure**
 ```
 📂 java-snap-game 
-│── 📂 .idea
-│── 📂 out
 │── 📂 src
 │ └── 📂 elias.snap
 │ │── 📄 Card.java
@@ -57,7 +55,7 @@ Snap is a classic card game where **two players take turns drawing cards** until
 1. Download the game code
    - Open a terminal and enter:
    ```
-   git clone https://github.com/3ixas/snap-game.git
+   git clone https://github.com/3ixas/java-snap-game.git
    ```
    - This will copy the game files to your computer.
    
@@ -80,17 +78,17 @@ Snap is a classic card game where **two players take turns drawing cards** until
 ---
 
 ## 🎲 **How to Play**
-- The game will prompt Player 1 and Player 2 to take turns drawing a card. 
-- If two consecutive cards match, a SNAP challenge appears. 
+- The game will prompt Player 1 and Player 2 to take turns drawing a card.
+- If two consecutive cards match, a SNAP challenge appears.
 - Type "snap" within 2 seconds to win the round!
-- The first player to win 3 rounds becomes the final winner. 
+- The first player to win 3 rounds becomes the final winner.
+- If the deck runs out of cards before a player wins, the game ends in a draw.
 - At the end of a match, you can choose to play again or exit the game.
 
 ---
 
 ## 📚 **Lessons Learned**
-- **Best Practices in Java OOP** – Applied Encapsulation, Inheritance, and 
-  Single Responsibility Principle (SRP).
+- **Applied SOLID Principles** – Used Encapsulation, Inheritance, and Single Responsibility Principle (SRP).
 - **Optimised Sorting & Data Structures** – Used ArrayLists, Java Enums, and 
   efficient Comparators.
 - **Handling Asynchronous Input in Java** – Implemented timed input detection 
